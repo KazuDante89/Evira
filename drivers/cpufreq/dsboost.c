@@ -203,7 +203,15 @@ static int dsboost_init(void)
 	if (ret)
 		goto err_input;
 
+	fb_notifier.notifier_call = fb_notifier_cb;
+	fb_notifier.priority = INT_MAX;
+	ret = fb_register_client(&fb_notifier);
+	if (ret)
+		goto err_notifier;
+
 	return 0;
+err_notifier:
+	fb_unregister_client(&fb_notifier);
 err_input:
 	input_unregister_handler(&dsboost_input_handler);
 err_wq:
