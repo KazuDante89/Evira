@@ -120,7 +120,10 @@ config CPU_FREQ_DEFAULT_GOV_ZZMOOVE
  	  Use the CPUFreq governor 'zzmoove' as default, using predefined
  	  frequency lookup tables and optimized scaling triggers instead of
  	  % frequency steps to get smooth up/downscaling dependant on CPU load.
- 	  
+config CPU_FREQ_DEFAULT_GOV_DARKNESSV5
+        bool "darknessv5"
+        select CPU_FREQ_GOV_DARKNESSV5
+        help 	  
 config CPU_FREQ_DEFAULT_GOV_INTERACTIVE
 	bool "interactive"
 	select CPU_FREQ_GOV_INTERACTIVE
@@ -191,7 +194,9 @@ config CPU_FREQ_DEFAULT_GOV_ELECTROUTIL
 	  governor will be 'performance'.
 	  
 endchoice
-
+config CPU_FREQ_GOV_DARKNESSV5
+	tristate "'darknessv5' cpufreq governor"
+        depends on CPU_FREQ
 config CPU_FREQ_GOV_ZZMOOVE
  	tristate "'zzmoove' cpufreq governor"
  	depends on CPU_FREQ
@@ -450,7 +455,11 @@ config CPU_FREQ_GOV_BLU_ACTIVE
 	  module will be called cpufreq_blu_active.
 
 	  If in doubt, say N.
-
+config FINGERPRINT_BOOST
+	bool "Fingerprint Boost"
+	default y
+	help
+	  Boosts available CPUs to max frequency on fingerprint sensor input.
 if X86
 source "drivers/cpufreq/Kconfig.x86"
 endif
